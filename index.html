@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typography Pairing System</title>
+
+<style>
+  :root {
+    --bg: #f7f7f5;
+    --surface: #ffffff;
+    --text: #171717;
+    --muted: #6b6b68;
+    --line: #deded9;
+    --accent: #171717;
+
+    --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-body: Georgia, "Times New Roman", serif;
+    --font-ui: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+  }
+
+  .container {
+    width: min(1100px, calc(100% - 40px));
+    margin: auto;
+  }
+
+  header {
+    padding: 80px 0 60px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 8vw, 92px);
+    line-height: .95;
+    letter-spacing: -.045em;
+    margin: 0;
+    max-width: 900px;
+  }
+
+  .intro {
+    font-size: 21px;
+    line-height: 1.5;
+    max-width: 720px;
+    margin: 32px 0 0;
+    color: #444;
+  }
+
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(247,247,245,.94);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  nav .container {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding: 14px 0;
+  }
+
+  nav a {
+    white-space: nowrap;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  section {
+    padding: 80px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -.025em;
+    margin: 0 0 18px;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.15;
+    margin: 0 0 12px;
+  }
+
+  .section-intro {
+    max-width: 680px;
+    color: var(--muted);
+    margin-bottom: 42px;
+  }
+
+  .rule {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 24px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .number {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .1em;
+    color: var(--muted);
+  }
+
+  .rule p {
+    margin: 0;
+    max-width: 680px;
+  }
+
+  .pairings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .pairing {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    padding: 30px;
+  }
+
+  .pairing-label {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 26px;
+  }
+
+  .sample-title {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -.03em;
+    margin-bottom: 18px;
+  }
+
+  .sample-body {
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    max-width: 520px;
+  }
+
+  .sans-sans .sample-body {
+    font-family: var(--font-display);
+  }
+
+  .serif-sans .sample-title {
+    font-family: Georgia, serif;
+  }
+
+  .serif-sans .sample-body {
+    font-family: var(--font-display);
+  }
+
+  .serif-serif .sample-title {
+    font-family: Georgia, serif;
+  }
+
+  .serif-serif .sample-body {
+    font-family: Georgia, serif;
+  }
+
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .spec {
+    background: var(--surface);
+    padding: 24px;
+  }
+
+  .spec strong {
+    display: block;
+    font-family: var(--font-ui);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    margin-bottom: 10px;
+  }
+
+  .spec span {
+    font-family: var(--font-ui);
+    font-size: 16px;
+  }
+
+  .scale {
+    max-width: 800px;
+  }
+
+  .scale-row {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: baseline;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .scale-meta {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: .95;
+    letter-spacing: -.04em;
+  }
+
+  .display-lg {
+    font-family: var(--font-display);
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -.03em;
+  }
+
+  .display-md {
+    font-family: var(--font-display);
+    font-size: 30px;
+    line-height: 1.05;
+  }
+
+  .body-lg {
+    font-size: 21px;
+    line-height: 1.5;
+  }
+
+  .body {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+
+  .caption {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .do-dont {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .box {
+    padding: 30px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  .box-title {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    font-weight: 700;
+    margin-bottom: 22px;
+  }
+
+  .check {
+    font-family: var(--font-display);
+    font-size: 28px;
+    margin-bottom: 10px;
+  }
+
+  .box p {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .formula {
+    background: #171717;
+    color: #fff;
+    padding: 34px;
+    font-family: var(--font-ui);
+    font-size: clamp(18px, 3vw, 28px);
+    line-height: 1.4;
+    letter-spacing: -.01em;
+  }
+
+  .formula strong {
+    font-weight: 700;
+  }
+
+  footer {
+    padding: 60px 0 90px;
+  }
+
+  footer p {
+    color: var(--muted);
+    max-width: 600px;
+  }
+
+  @media (max-width: 700px) {
+    header {
+      padding: 55px 0 45px;
+    }
+
+    section {
+      padding: 55px 0;
+    }
+
+    .pairings,
+    .do-dont {
+      grid-template-columns: 1fr;
+    }
+
+    .specs {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .rule {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .scale-row {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="container">
+    <div class="eyebrow">Typography / Design System</div>
+    <h1>A practical system for pairing type.</h1>
+    <p class="intro">
+      Typography works when hierarchy, contrast and rhythm are intentional.
+      You do not need a serif and a sans-serif to create good typography.
+      You need clearly differentiated roles.
+    </p>
+  </div>
+</header>
+
+<nav>
+  <div class="container">
+    <a href="#principles">Principles</a>
+    <a href="#pairings">Pairings</a>
+    <a href="#scale">Scale</a>
+    <a href="#spacing">Spacing</a>
+    <a href="#weights">Weights</a>
+    <a href="#rules">Rules</a>
+    <a href="#recipes">Recipes</a>
+  </div>
+</nav>
+
+<main>
+
+<section id="principles">
+  <div class="container">
+    <h2>The core principles</h2>
+    <p class="section-intro">
+      Think of typefaces as roles in a system rather than isolated choices.
+    </p>
+
+    <div class="rule">
+      <div class="number">01</div>
+      <div>
+        <h3>Contrast creates hierarchy.</h3>
+        <p>
+          Headlines should not compete with body copy. Use differences in
+          size, weight, width, spacing or typeface to establish levels of importance.
+        </p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="number">02</div>
+      <div>
+        <h3>Harmony prevents chaos.</h3>
+        <p>
+          Contrasting typefaces should still share some underlying character:
+          proportion, era, geometry, stroke quality or overall tone.
+        </p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="number">03</div>
+      <div>
+        <h3>Body text has a different job.</h3>
+        <p>
+          Display type attracts attention. Body type must remain comfortable
+          across many lines. Prioritize readability over novelty.
+        </p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="number">04</div>
+      <div>
+        <h3>Use fewer typefaces than you think.</h3>
+        <p>
+          One family with several weights can create a complete system.
+          Two well-chosen families are usually enough.
+        </p>
+      </div>
+    </div>
+
+    <div class="rule">
+      <div class="number">05</div>
+      <div>
+        <h3>Hierarchy matters more than font pairing.</h3>
+        <p>
+          A beautifully paired typeface system can still fail if everything
+          is the same size, weight and spacing.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="pairings">
+  <div class="container">
+    <h2>Four fundamental pairings</h2>
+    <p class="section-intro">
+      There is no universal “correct” relationship between serif and sans-serif.
+      Each combination produces a different voice.
+    </p>
+
+    <div class="pairings">
+
+      <article class="pairing sans-serif">
+        <div class="pairing-label">01 / Sans + Serif</div>
+        <div class="sample-title">Modern headline</div>
+        <div class="sample-body">
+          This combination is especially effective for editorial,
+          cultural and sophisticated layouts. The sans-serif establishes
+          a clean visual entry point while the serif provides comfortable
+          reading texture.
+        </div>
+      </article>
+
+      <article class="pairing sans-sans">
+        <div class="pairing-label">02 / Sans + Sans</div>
+        <div class="sample-title">Modern system</div>
+        <div class="sample-body">
+          A sans-serif headline and sans-serif body can be exceptionally
+          clean. Create hierarchy through weight, scale, width and spacing
+          rather than relying on a serif/sans contrast.
+        </div>
+      </article>
+
+      <article class="pairing serif-sans">
+        <div class="pairing-label">03 / Serif + Sans</div>
+        <div class="sample-title">Editorial voice</div>
+        <div class="sample-body">
+          A serif headline gives the composition personality while the
+          sans-serif body provides a functional, contemporary reading experience.
+        </div>
+      </article>
+
+      <article class="pairing serif-serif">
+        <div class="pairing-label">04 / Serif + Serif</div>
+        <div class="sample-title">Literary system</div>
+        <div class="sample-body">
+          Serif-on-serif works when the two roles are clearly differentiated.
+          Use different weights, proportions or sizes rather than two nearly
+          identical faces.
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="scale">
+  <div class="container">
+    <h2>Build a type scale</h2>
+    <p class="section-intro">
+      Start with a readable body size and scale upward from there.
+      Exact values depend on the medium, typeface and viewing distance.
+    </p>
+
+    <div class="scale">
+
+      <div class="scale-row">
+        <div class="scale-meta">DISPLAY / 64–96px</div>
+        <div class="display-xl">A strong opening statement.</div>
+      </div>
+
+      <div class="scale-row">
+        <div class="scale-meta">H1 / 40–56px</div>
+        <div class="display-lg">Primary heading</div>
+      </div>
+
+      <div class="scale-row">
+        <div class="scale-meta">H2 / 28–36px</div>
+        <div class="display-md">Section heading</div>
+      </div>
+
+      <div class="scale-row">
+        <div class="scale-meta">LEAD / 19–22px</div>
+        <div class="body-lg">Introductory or emphasized text.</div>
+      </div>
+
+      <div class="scale-row">
+        <div class="scale-meta">BODY / 16–18px</div>
+        <div class="body">
+          Standard body text should be comfortable for sustained reading.
+        </div>
+      </div>
+
+      <div class="scale-row">
+        <div class="scale-meta">CAPTION / 12–14px</div>
+        <div class="caption">Supporting information and metadata.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="spacing">
+  <div class="container">
+    <h2>Spacing and measure</h2>
+    <p class="section-intro">
+      Typography is not just letters. The empty space around and between
+      them is part of the design.
+    </p>
+
+    <div class="specs">
+
+      <div class="spec">
+        <strong>Body leading</strong>
+        <span>1.45–1.7×</span>
+      </div>
+
+      <div class="spec">
+        <strong>Headline leading</strong>
+        <span>0.95–1.15×</span>
+      </div>
+
+      <div class="spec">
+        <strong>Body measure</strong>
+        <span>45–75 characters</span>
+      </div>
+
+      <div class="spec">
+        <strong>Paragraph gap</strong>
+        <span>0.8–1.2× line-height</span>
+      </div>
+
+    </div>
+
+    <br><br>
+
+    <div class="rule">
+      <div class="number">TIP</div>
+      <div>
+        <h3>Long lines make reading harder.</h3>
+        <p>
+          On desktop, avoid letting body copy stretch across the entire screen.
+          A narrower measure usually feels more intentional and is easier to read.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="weights">
+  <div class="container">
+    <h2>Use weight strategically</h2>
+    <p class="section-intro">
+      Weight is one of the easiest ways to establish hierarchy without
+      introducing another typeface.
+    </p>
+
+    <div class="specs">
+
+      <div class="spec">
+        <strong>Regular / 400</strong>
+        <span>Primary body text</span>
+      </div>
+
+      <div class="spec">
+        <strong>Medium / 500</strong>
+        <span>Navigation / emphasis</span>
+      </div>
+
+      <div class="spec">
+        <strong>Semibold / 600</strong>
+        <span>Subheadings / labels</span>
+      </div>
+
+      <div class="spec">
+        <strong>Bold / 700</strong>
+        <span>Major headings</span>
+      </div>
+
+    </div>
+
+    <div style="margin-top:40px;">
+      <div class="rule">
+        <div class="number">RULE</div>
+        <div>
+          <h3>Do not make everything bold.</h3>
+          <p>
+            If everything has emphasis, nothing has emphasis. Reserve heavy
+            weights for moments where the hierarchy genuinely needs them.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section id="rules">
+  <div class="container">
+    <h2>Do / don't</h2>
+
+    <div class="do-dont">
+
+      <div class="box">
+        <div class="box-title">Do</div>
+        <div class="check">Create contrast.</div>
+        <p>
+          Make the relationship between headline, subheading and body
+          immediately understandable.
+        </p>
+      </div>
+
+      <div class="box">
+        <div class="box-title">Don't</div>
+        <div class="check">Create noise.</div>
+        <p>
+          Avoid combining several decorative typefaces simply because
+          each one looks interesting on its own.
+        </p>
+      </div>
+
+      <div class="box">
+        <div class="box-title">Do</div>
+        <div class="check">Pair by character.</div>
+        <p>
+          Look at proportions, x-height, stroke contrast, width and overall
+          personality—not just serif versus sans-serif.
+        </p>
+      </div>
+
+      <div class="box">
+        <div class="box-title">Don't</div>
+        <div class="check">Pair by category alone.</div>
+        <p>
+          “One serif + one sans” does not automatically make a good pairing.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<section id="recipes">
+  <div class="container">
+    <h2>Practical recipes</h2>
+    <p class="section-intro">
+      These are starting points, not rigid rules.
+    </p>
+
+    <div class="formula">
+      <strong>Editorial</strong><br>
+      Sans display + Serif body<br>
+      Tight headline leading + generous body leading<br>
+      Strong size contrast
+    </div>
+
+    <br>
+
+    <div class="formula">
+      <strong>Modern / Minimal</strong><br>
+      Sans headline + Sans body<br>
+      Weight contrast + restrained spacing<br>
+      One type family is often enough
+    </div>
+
+    <br>
+
+    <div class="formula">
+      <strong>Luxury / Cultural</strong><br>
+      Serif headline + Sans body<br>
+      Large display size + generous whitespace<br>
+      Light or regular body weight
+    </div>
+
+    <br>
+
+    <div class="formula">
+      <strong>Traditional / Literary</strong><br>
+      Serif headline + Serif body<br>
+      Moderate contrast between weights and sizes<br>
+      Long-form reading measure
+    </div>
+
+    <br><br>
+
+    <div class="rule">
+      <div class="number">FINAL</div>
+      <div>
+        <h3>When in doubt, start with one family.</h3>
+        <p>
+          Choose a typeface with enough weights and styles to handle the entire
+          hierarchy. Introduce a second family only when it adds a meaningful
+          contrast in voice or function.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <div class="eyebrow">Typography System</div>
+    <h2>Hierarchy first. Pairing second.</h2>
+    <p>
+      The best typography systems feel inevitable: the reader always knows
+      what to look at, what to read next, and what information matters most.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>
